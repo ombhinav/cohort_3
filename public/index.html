@@ -1,0 +1,31 @@
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    <script> 
+        async function sendRequest(){
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+            const response = await axios.post("http://localhost:3000/sum",{
+                a:a,
+                b:b
+            })
+            displayResult(response.data.sum);
+            console.log(response.data)
+        }
+
+        function displayResult(result){
+            const resultElement = document.getElementById("ans");
+            if(resultElement){
+                resultElement.textContent = `Result: ${result}`;
+            }
+            else{
+                console.error("Result not found");
+            }
+        }
+    </script>
+</head>
+<body>
+    <input id="a" type="text" placeholder="Enter first no."/>
+    <input id="b" type="text" placeholder="Enter second no."/>
+    <div id = "ans"></div>
+    <button onclick="sendRequest()"> Find sum </button>
+</body>
