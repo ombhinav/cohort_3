@@ -10,14 +10,25 @@ let users = [];
 
 function auth(req,res,next){
     const token = req.headers.token;
-    const decodedInfo = jwt.verify(token, JWT_SECRET);
-    if(decodedInfo.username){
-        req.username = decodedInfo.username;
-        next();
+    if (!token) {
+        document.getElementById('information').innerHTML = "Please log in to view your information";
+        return;
     }
-    else{
-        res.status(400).json({
-            message: "Error"
+    try{
+        const decodedInfo = jwt.verify(token, JWT_SECRET);
+        if(decodedInfo.username){
+            req.username = decodedInfo.username;
+            next();
+        }
+        else{
+            res.status(400).json({
+                message: "Error"
+            })
+        }
+    }
+    catch(error){
+        res.status(401).json({
+            message: "Invalid Token"
         })
     }
 }
